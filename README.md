@@ -77,3 +77,13 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# Weather App
+
+## Setup
+
+1. Clone this repository
+2. Run `npm install`
+3. Copy `secrets.template.ts` to `secrets.ts`
+4. Edit `secrets.ts` and add your OpenWeatherMap API key and desired location coordinates
+5. Run the app with `npx react-native run-android` or `npx react-native run-ios`
