@@ -68,4 +68,23 @@ export const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    refreshContainer: {
+        position: 'absolute',
+        top: 5,
+        left: 5,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    refreshButton: {
+        padding: 5,
+    },
+    refreshIcon: {
+        fontSize: 18,
+        color: '#ffffff',
+    },
+    lastRefreshed: {
+        fontSize: 10,
+        color: '#ffffff',
+        marginLeft: 10,
+    },
 });

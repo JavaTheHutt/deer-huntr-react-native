@@ -18,3 +18,9 @@ export const getWindDirection = (degrees: number): string => {
   const fromDirection = degreesToCompass((degrees + 180) % 360);
   return `${fromDirection} -> ${compassDirection}`;
 };
+
+// Add this new function
+export const getCurrentTime = (): string => {
+  const now = new Date();
+  return now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+};

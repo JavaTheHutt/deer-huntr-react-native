@@ -1,20 +1,20 @@
 # Weather App TODO List
 
 ## High Priority
-1. Add Tomorrow's Forecast Screen
+1. ~~Implement Refresh Functionality~~
+   - ~~Add a refresh button or pull-to-refresh mechanism~~
+   - ~~Display last refreshed timestamp~~
+   - ~~Implement the refresh logic to fetch new weather data~~
+
+2. Add Tomorrow's Forecast Screen
    - Create a new screen component for tomorrow's forecast
    - Implement navigation between current weather and forecast screens
    - Fetch and display tomorrow's weather data from the API
 
-2. Add Start Hunt and End Hunt Times
+3. Add Start Hunt and End Hunt Times
    - Research optimal hunting times based on weather conditions
    - Add new fields to display start and end hunt times
    - Implement logic to calculate these times based on weather data
-
-3. Implement Refresh Functionality
-   - Add a refresh button or pull-to-refresh mechanism
-   - Display last refreshed timestamp
-   - Implement the refresh logic to fetch new weather data
 
 4. Dynamic Background Based on Weather
    - Create a collection of background images for different weather conditions
@@ -30,7 +30,7 @@
 6. Add Settings Screen
    - Create a settings screen for user preferences
    - Allow users to switch between imperial and metric units
-   - Option to change location
+   - Option to change location (if expanding beyond current location)
 
 7. Implement Local Storage
    - Cache weather data locally to reduce API calls
@@ -49,6 +49,11 @@
 10. Expand Forecast Range
     - Add options for 5-day and 7-day forecasts
     - Create a scrollable/swipeable forecast view
+
+11. Add Weather Effects
+    - Implement visual effects based on current weather (e.g., rain droplets, snow, sun rays)
+    - Ensure effects are subtle and don't interfere with readability
+    - Consider performance impact and add option to disable effects
 
 ## Future Considerations
 - Integrate with other APIs (e.g., hunting season dates, local regulations)

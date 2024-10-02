@@ -3,29 +3,37 @@ import { View, Text, ActivityIndicator, ImageBackground, SafeAreaView, Image, To
 import axios from 'axios';
 import { API_KEY, LOCATION_LAT, LOCATION_LON } from './secrets';
 import { styles } from './WeatherScreen.styles';
-import { formatTime, openODNRWebsite, getWindDirection } from './helperMethods';
+import { formatTime, openODNRWebsite, getWindDirection, getCurrentTime } from './helperMethods';
 
 const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastRefreshed, setLastRefreshed] = useState<string>('');
 
   useEffect(() => {
     fetchWeatherData();
   }, []);
 
   const fetchWeatherData = async () => {
+    setLoading(true);
+    setError(null);
     try {
       const response = await axios.get<WeatherData>(
         `https://api.openweathermap.org/data/2.5/weather?lat=${LOCATION_LAT}&lon=${LOCATION_LON}&units=imperial&appid=${API_KEY}`
       );
       setWeatherData(response.data);
-      setLoading(false);
+      setLastRefreshed(getCurrentTime());
     } catch (error) {
       console.error('Error fetching weather data:', error);
       setError('Error fetching weather data');
+    } finally {
       setLoading(false);
     }
+  };
+
+  const handleRefresh = () => {
+    fetchWeatherData();
   };
 
   if (loading) {
@@ -75,6 +83,12 @@ const WeatherScreen: React.FC = () => {
     >
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.overlay}>
+          <View style={styles.refreshContainer}>
+            <TouchableOpacity style={styles.refreshButton} onPress={handleRefresh}>
+              <Text style={styles.refreshIcon}>🔄</Text>
+            </TouchableOpacity>
+            <Text style={styles.lastRefreshed}>Last updated: {lastRefreshed}</Text>
+          </View>
           <View style={styles.topRight}>
             <Text style={styles.city}>{weatherData.name}</Text>
             <Text style={styles.temperature}>{Math.round(weatherData.main.temp)}°F</Text>
