@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, ImageBackground, SafeAreaView, Image, TouchableOpacity, Linking } from 'react-native';
+import { View, Text, ActivityIndicator, ImageBackground, SafeAreaView, Image, TouchableOpacity, Linking } from 'react-native';
 import axios from 'axios';
 import { API_KEY, LOCATION_LAT, LOCATION_LON } from './secrets';
-import Icon from 'react-native-vector-icons/FontAwesome'; // Make sure to install this package
+import { styles } from './WeatherScreen.styles';
+import { formatTime, openODNRWebsite, getWindDirection } from './helperMethods';
 
 const WeatherScreen: React.FC = () => {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
@@ -27,31 +28,10 @@ const WeatherScreen: React.FC = () => {
     }
   };
 
-  const formatTime = (timestamp: number): string => {
-    const date = new Date(timestamp * 1000);
-    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-  };
-
-  const openODNRWebsite = () => {
-    Linking.openURL('https://oh-web.s3licensing.com/Harvest/Index');
-  };
-
-  const degreesToCompass = (degrees: number): string => {
-    const directions = ['N', 'NNE', 'NE', 'ENE', 'E', 'ESE', 'SE', 'SSE', 'S', 'SSW', 'SW', 'WSW', 'W', 'WNW', 'NW', 'NNW'];
-    const index = Math.round(degrees / 22.5) % 16;
-    return directions[index];
-  };
-
-  const getWindDirection = (degrees: number): string => {
-    const compassDirection = degreesToCompass(degrees);
-    const fromDirection = degreesToCompass((degrees + 180) % 360);
-    return `${fromDirection} -> ${compassDirection}`;
-  };
-
   if (loading) {
     return (
       <ImageBackground 
-        source={require('./assets/deer1.webp')} 
+        source={require('./assets/deer2_rainy.webp')} 
         style={styles.backgroundImage}
       >
         <View style={styles.overlay}>
@@ -65,7 +45,7 @@ const WeatherScreen: React.FC = () => {
   if (error) {
     return (
       <ImageBackground 
-            source={require('./assets/deer1.webp')} 
+            source={require('./assets/deer2_rainy.webp')} 
         style={styles.backgroundImage}
       >
         <View style={styles.overlay}>
@@ -78,7 +58,7 @@ const WeatherScreen: React.FC = () => {
   if (!weatherData) {
     return (
       <ImageBackground 
-        source={require('./assets/deer1.webp')} 
+        source={require('./assets/deer2_rainy.webp')} 
         style={styles.backgroundImage}
       >
         <View style={styles.overlay}>
@@ -90,7 +70,7 @@ const WeatherScreen: React.FC = () => {
 
   return (
     <ImageBackground 
-      source={require('./assets/deer1.webp')} 
+      source={require('./assets/deer2_rainy.webp')} 
       style={styles.backgroundImage}
     >
       <SafeAreaView style={styles.safeArea}>
@@ -107,12 +87,9 @@ const WeatherScreen: React.FC = () => {
             </Text>
             <View style={styles.windDirection}>
               <Text style={styles.details}>Wind Direction: </Text>
-              <Icon 
-                name="arrow-up" 
-                size={20} 
-                color="#ffffff" 
-                style={[styles.windArrow, { transform: [{ rotate: `${weatherData.wind.deg}deg` }] }]}
-              />
+              <Text style={[styles.windArrow, { transform: [{ rotate: `${weatherData.wind.deg}deg` }] }]}>
+                ↑
+              </Text>
             </View>
             <Text style={styles.details}>Sunrise: {formatTime(weatherData.sys.sunrise)}</Text>
             <Text style={styles.details}>Sunset: {formatTime(weatherData.sys.sunset)}</Text>
@@ -129,82 +106,5 @@ const WeatherScreen: React.FC = () => {
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  backgroundImage: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-  },
-  safeArea: {
-    flex: 1,
-  },
-  overlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.3)', // semi-transparent overlay
-  },
-  topRight: {
-    position: 'absolute',
-    top: 20,
-    right: 20,
-    alignItems: 'flex-end',
-  },
-  city: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 5,
-  },
-  temperature: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#ffffff',
-    marginBottom: 5,
-  },
-  description: {
-    fontSize: 18,
-    color: '#ffffff',
-    textAlign: 'right',
-  },
-  bottomContent: {
-    position: 'absolute',
-    bottom: 40,
-    left: 20,
-    right: 20,
-  },
-  details: {
-    fontSize: 18,
-    marginBottom: 5,
-    color: '#ffffff',
-  },
-  loadingText: {
-    fontSize: 18,
-    color: '#ffffff',
-    marginTop: 10,
-  },
-  errorText: {
-    fontSize: 18,
-    color: '#ffffff',
-  },
-  logo: {
-    position: 'absolute',
-    bottom: 20,
-    right: 20,
-    width: 80,  // Increased size
-    height: 80, // Increased size
-    zIndex: 10, // Ensure it's on top of other elements
-  },
-  logoImage: {
-    width: '100%',
-    height: '100%',
-  },
-  windDirection: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  windArrow: {
-    marginLeft: 10,
-  },
-});
 
 export default WeatherScreen;
